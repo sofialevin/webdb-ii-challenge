@@ -1,9 +1,7 @@
-const knex = require('knex');
+const server = require('./server.js');
 
-const config = require('./knexfile.js');
+const PORT = process.env.PORT || 4000;
 
-// we must select the development object from our knexfile
-const db = knex(config.development);
-
-// export for use in codebase
-module.exports = db;
+server.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}...`);
+});
