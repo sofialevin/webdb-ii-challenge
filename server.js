@@ -43,4 +43,26 @@ server.post('/', (req, res) => {
     });
 });
 
+server.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { body } = req
+
+  db('cars')
+    .where({ id: id })
+    .update(body)
+      .then((result) => {
+        if (result) {
+          db('cars').where({ id: id })
+          .then(updatedCar => {
+            res.status(200).json(updatedCar);
+          });
+        } else {
+          res.status(404).json({ message: "Invalid id" })
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Failed to update data", error: err });
+      });
+})
+
 module.exports = server;
