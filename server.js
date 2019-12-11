@@ -69,4 +69,21 @@ server.put('/:id', (req, res) => {
       });
 })
 
+server.delete('/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('cars')
+    .where({ id: id }).del()
+      .then((result) => {
+        if (result) {
+          res.status(204).end()
+        } else {
+          res.status(404).json({ message: "Invalid id" })
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Failed to delete data", error: err });
+      });
+})
+
 module.exports = server;
