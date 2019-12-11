@@ -21,7 +21,11 @@ server.get('/:id', (req, res) => {
 
   db('cars').where({ id }).first()
     .then(car => {
+      if (car) {
       res.json(car);
+      } else {
+        res.status(404).json({ message: "Invalid id" })
+      }
     })
     .catch(err => {
       res.status(500).json({ message: 'Failed to retrieve car', error: err });
